@@ -44,24 +44,6 @@ def prepare_main():
 def prepare_test():
     pass
 
-
-def border(func):
-    def wrapper():
-        print("####################################")
-        func()
-        print("####################################")
-    return wrapper
-
-
-@border
-def read_config():
-    config = ConfigParser()
-    if not config.read("/".join([Params.templatesDir, Params.confFile])):
-        print("can't read file %s" % "/".join([Params.templatesDir, Params.confFile]))
-    else:
-        print("Config:  %s" % config.items(Params.confSections[0]))
-
-
 # main actions
 if __name__ == '__main__':
 
