@@ -13,7 +13,6 @@ if (GTEST_FOUND)
     main.cpp
     )
   target_link_libraries( ${PROJECT_NAME}
-    #kncore
         testhelpers
         ${GTEST_BOTH_LIBRARIES}
     )
