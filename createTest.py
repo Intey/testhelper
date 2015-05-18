@@ -20,6 +20,9 @@ except ImportError:
 
 from docopt import docopt
 
+import cmakefile
+import testfile
+
 
 class Params:
     templatesDir = "_testTemplate"
@@ -30,19 +33,11 @@ class Params:
     fileTest = "test.cpp"
 
 
-def prepare_cmake():
-    # find target_link_libraries, add modules
-    # find FOLDER, add group
-
-    pass
 
 
 def prepare_main():
     pass
 
-
-def prepare_test():
-    pass
 
 # main actions
 if __name__ == '__main__':
