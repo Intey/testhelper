@@ -20,9 +20,6 @@ class TestCmakeFile(unittest.TestCase):
 
     def test_prepare(self):
         actual = cf.prepare(self.srcCMakePath, "kncore", ["kncore", "kngeo"])
-        pprint.pprint(actual)
-        pprint.pprint(self.expectContent)
-
         self.assertListEqual(actual, self.expectContent)
 
 
