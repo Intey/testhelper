@@ -1,11 +1,37 @@
 from configparser import ConfigParser
 
 
+class Params:
+    templatesDir = "_testTemplate"
+    filenameCmake = "CMakeLists.txt"
+    filenameMain = "main.cpp"
+    filenameTest = "test.cpp"
+    testDir = "tests"
+    testCaseName = "TestCaseName"
+    testDirPostfix = "_test"
+
+    class Config:
+        section = "files"
+        filename = "config.conf"
+
+        @staticmethod
+        def get_config_path():
+            return "/".join([Params.templatesDir, Params.Config.section])
+
+    @staticmethod
+    def get_cmake_template():
+        return "/".join([Params.templatesDir, Params.filenameCmake])
+
+    @staticmethod
+    def get_test_template():
+        return "/".join([Params.templatesDir, Params.filenameTest])
+
+
 def read_config():
     """Read configuration file and return params"""
     config = ConfigParser()
-    if not config.read(pathCmake):
-        print("can't read file %s" % "/".join([Params.templatesDir, Params.confFile]))
+    if not config.read(Params.Config.filename):
+        print("can't read file %s" % Params.Config.get_config_path())
     else:
-        print("Config: %s" % config.items(Params.confSections[0]))
+        print("Config: %s" % config.items(Params.Config.section))
 
