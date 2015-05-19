@@ -13,11 +13,11 @@ Options:
 """
 # File work
 from os import getcwd, makedirs
+from string import Template  # string interpolation
 
-# from string import Template  # string interpolation
-import ioworks as io
 from docopt import docopt
 
+import ioworks as io
 from cmakefile import CmakeFile
 from testfile import TestFile
 from configurator import Params
@@ -65,6 +65,9 @@ if __name__ == '__main__':
     io.write_to_file("/".join([dst, Params.filenameCmake]), cmakeout)
     testout = TestFile.prepare(Params.get_test_template(), testCaseName)
     io.write_to_file("/".join([dst, testCaseName + Params.testDirPostfix + ".cpp"]), testout)
-    print("Ok, ready for change files")
+
+    message = Template("Test case $tcn created in $path ").substitute(tcn=testCaseName, path=dst)
+
+    print(message)
 
     # mainfile.prepare()
