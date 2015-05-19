@@ -13,9 +13,9 @@ Options:
 """
 # File work
 from os import getcwd, makedirs
-from shutil import copytree
-from string import Template  # string interpolation
 
+# from string import Template  # string interpolation
+import ioworks as io
 from docopt import docopt
 
 from cmakefile import CmakeFile
@@ -47,16 +47,10 @@ def copy_files(dst):
     return dst
 
 
-def write_to_file(path, lines):
-    file = open(path, 'w', encoding="UTF8")
-    file.writelines(lines)
-    file.close()
-
-
 if __name__ == '__main__':
     # test string
-    # arguments = docopt(__doc__, argv="knCoreTest -g kncore --config conf --use kncore kngeo kngui ", version='0.1')
-    arguments = docopt(__doc__, version='0.1')
+    arguments = docopt(__doc__, argv="knCoreTest -g kncore --config conf --use kncore kngeo kngui ", version='0.1')
+    # arguments = docopt(__doc__, version='0.1')
     # read_config()
 
     testCaseName = arguments["TESTCASENAME"]
@@ -68,9 +62,9 @@ if __name__ == '__main__':
     dst = copy_files(mk_test_folder(group, testCaseName))
 
     cmakeout = CmakeFile.prepare(Params.get_cmake_template(), group, modules)
-    write_to_file("/".join([dst, Params.filenameCmake]), cmakeout)
+    io.write_to_file("/".join([dst, Params.filenameCmake]), cmakeout)
     testout = TestFile.prepare(Params.get_test_template(), testCaseName)
-    write_to_file("/".join([dst, testCaseName + Params.testDirPostfix + ".cpp"]), testout)
+    io.write_to_file("/".join([dst, testCaseName + Params.testDirPostfix + ".cpp"]), testout)
     print("Ok, ready for change files")
 
     # mainfile.prepare()

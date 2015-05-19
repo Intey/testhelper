@@ -1,5 +1,6 @@
 import ioworks as io
 
+
 class CmakeFile:
     @staticmethod
     def prepare(path, group="", mods=[]):
@@ -9,11 +10,11 @@ class CmakeFile:
 
         if mods.__len__() != 0 and group != "":
             for i in range(0, file_lines.__len__()):
-                    if file_lines[i].__contains__('target_link_libraries'):
-                        module_str = " ".join(mods)
-                        CmakeFile.append_modules(file_lines, i, module_str)
-                    if file_lines[i].__contains__('FOLDER'):
-                        file_lines[i] = CmakeFile.change_folder(file_lines[i], group)
+                if file_lines[i].__contains__('target_link_libraries'):
+                    module_str = " ".join(mods)
+                    CmakeFile.append_modules(file_lines, i, module_str)
+                if file_lines[i].__contains__('FOLDER'):
+                    file_lines[i] = CmakeFile.change_folder(file_lines[i], group)
         return file_lines
 
     @staticmethod
@@ -22,5 +23,5 @@ class CmakeFile:
 
     @staticmethod
     def append_modules(lines, i, modules_str):
-        new_line = lines[i+1].replace('testhelpers', modules_str)
-        lines.insert(i+1, new_line)
+        new_line = lines[i + 1].replace('testhelpers', modules_str)
+        lines.insert(i + 1, new_line)

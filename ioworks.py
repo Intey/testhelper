@@ -1,4 +1,3 @@
-
 def get_lines(path):
     """ read all lines in file
     :param path: filepath to read.
@@ -9,3 +8,8 @@ def get_lines(path):
     f.close()
     return res
 
+
+def write_to_file(path, lines):
+    file = open(path, 'w', encoding="UTF8")
+    file.writelines(lines)
+    file.close()

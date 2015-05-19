@@ -3,7 +3,6 @@ from configurator import Params
 
 
 class TestFile:
-
     @staticmethod
     def prepare(filepath, case_name):
         file_lines = io.get_lines(filepath)
