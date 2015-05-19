@@ -48,9 +48,9 @@ def copy_files(dst):
 
 
 def write_to_file(path, lines):
-    filecmake = open(path, 'w', encoding="UTF8")
-    filecmake.writelines(lines)
-    filecmake.close()
+    file = open(path, 'w', encoding="UTF8")
+    file.writelines(lines)
+    file.close()
 
 
 if __name__ == '__main__':
@@ -70,7 +70,7 @@ if __name__ == '__main__':
     cmakeout = CmakeFile.prepare(Params.get_cmake_template(), group, modules)
     write_to_file("/".join([dst, Params.filenameCmake]), cmakeout)
     testout = TestFile.prepare(Params.get_test_template(), testCaseName)
-    write_to_file("/".join([dst, Params.filenameTest]), testout)
+    write_to_file("/".join([dst, testCaseName + Params.testDirPostfix + ".cpp"]), testout)
     print("Ok, ready for change files")
 
     # mainfile.prepare()
