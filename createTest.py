@@ -55,8 +55,8 @@ def write_to_file(path, lines):
 
 if __name__ == '__main__':
     # test string
-    arguments = docopt(__doc__, argv="knCoreTest -g kncore --config conf --use kncore kngeo kngui ", version='0.1')
-    # arguments = docopt(__doc__, version='0.1')
+    # arguments = docopt(__doc__, argv="knCoreTest -g kncore --config conf --use kncore kngeo kngui ", version='0.1')
+    arguments = docopt(__doc__, version='0.1')
     # read_config()
 
     testCaseName = arguments["TESTCASENAME"]
