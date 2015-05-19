@@ -1,4 +1,5 @@
 from configparser import ConfigParser
+from os.path import exists
 
 
 class Params:
@@ -16,7 +17,10 @@ class Params:
 
         @staticmethod
         def get_config_path():
-            return "/".join([Params.templatesDir, Params.Config.section])
+            if exists(Params.Config.filename):
+                return Params.Config.filename
+            else:
+                return ""
 
     @staticmethod
     def get_cmake_template():
