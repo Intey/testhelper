@@ -49,10 +49,10 @@ def copy_files(dst):
 
 if __name__ == '__main__':
     # test string
-    arguments = docopt(__doc__, argv="knCoreTest -g kncore --config conf --use kncore kngeo kngui ", version='0.1')
-    # arguments = docopt(__doc__, version='0.1')
-    # read_config()
+    # arguments = docopt(__doc__, argv="knCoreTest -g kncore --config conf --use kncore kngeo kngui ", version='0.1')
 
+    arguments = docopt(__doc__, version='0.1')
+    # read_config()
     testCaseName = arguments["TESTCASENAME"]
     modules = arguments["MODULE"]
     group = arguments["GROUP"]
@@ -64,7 +64,7 @@ if __name__ == '__main__':
     cmakeout = CmakeFile.prepare(Params.get_cmake_template(), group, modules)
     io.write_to_file("/".join([dst, Params.filenameCmake]), cmakeout)
     testout = TestFile.prepare(Params.get_test_template(), testCaseName)
-    io.write_to_file("/".join([dst, testCaseName + Params.testDirPostfix + ".cpp"]), testout)
+    io.write_to_file("/".join([dst, testCaseName.lower() + Params.testDirPostfix + ".cpp"]), testout)
 
     message = Template("Test case $tcn created in $path ").substitute(tcn=testCaseName, path=dst)
 
