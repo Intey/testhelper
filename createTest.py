@@ -1,8 +1,16 @@
 #!/usr/bin/python3
+
+# createTest.py TESTCASENAME [(-g GROUP)] [(--config FILE)] [(--use MODULE...)]
+
 """
+createTest.py: 
+	Create test in ./tests
+
 Usage:
-    createTest.py TESTCASENAME [(-g GROUP)] [(--config FILE)] [(--use MODULE...)]
+    createTest.py TESTCASENAME [(-g GROUP)] [(--use MODULE...)]
     createTest.py (-h | --help)
+
+
 Options:
     TESTCASENAME            Name of creating test case
     [(-g GROUP)]            Name of module or group, that for test is created. This used for group sources in VS.
@@ -29,6 +37,7 @@ def mk_test_folder(group, test_case_name):
             testcasename - directory in group dir.
     :return: Path to new folder, where should be placed new test.
     """
+    # generate test in current dir + tests (./tests/<testcasename>)
     path = "/".join([Params.testDir, group, test_case_name + Params.testDirPostfix]).strip('/').replace('//', '/')
     makedirs(path, exist_ok=True)
     return path
@@ -56,7 +65,7 @@ if __name__ == '__main__':
     testCaseName = arguments["TESTCASENAME"]
     modules = arguments["MODULE"]
     group = arguments["GROUP"]
-    conf_file = arguments["FILE"]
+    # conf_file = arguments["FILE"]
     pwd = getcwd()
 
     dst = copy_files(mk_test_folder(group, testCaseName))

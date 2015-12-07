@@ -1,9 +1,9 @@
 from configparser import ConfigParser
-from os.path import exists
+from os.path import exists, dirname, realpath
 
 
 class Params:
-    templatesDir = "_testTemplate"
+    templatesDir = "/".join([dirname(realpath(__file__)), "_testTemplate"])
     filenameCmake = "CMakeLists.txt"
     filenameMain = "main.cpp"
     filenameTest = "test.cpp"
