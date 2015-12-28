@@ -1,4 +1,4 @@
-from configparser import ConfigParser
+# from configparser import ConfigParser
 from os.path import exists, dirname, realpath
 
 
@@ -31,11 +31,11 @@ class Params:
         return "/".join([Params.templatesDir, Params.filenameTest])
 
 
-def read_config():
-    """Read configuration file and return params"""
-    config = ConfigParser()
-    if not config.read(Params.Config.filename):
-        print("can't read file %s" % Params.Config.get_config_path())
-    else:
-        print("Config: %s" % config.items(Params.Config.section))
-
+# def read_config():
+#     """Read configuration file and return params"""
+#     config = ConfigParser()
+#     if not config.read(Params.Config.filename):
+#         print("can't read file %s" % Params.Config.get_config_path())
+#     else:
+#         print("Config: %s" % config.items(Params.Config.section))
+#
