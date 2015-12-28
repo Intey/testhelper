@@ -10,11 +10,12 @@ from utils import this_script_dir
 cmp_dir = "/".join([this_script_dir(),"tests"]).replace('//', '/')
 
 class TestCmakeFile(unittest.TestCase):
-    def setUp(self):
-        self.srcCMakePath       = Params.get_cmake_template()
-        self.expectCmakePath    = os.path.join(cmp_dir, "compare.txt")
-        self.expectContent      = io.get_lines(self.expectCmakePath)
-        self.msg ='\n\n===== Compared {0} and {1}'
+    @classmethod
+    def setUpClass(cls):
+        cls.srcCMakePath       = Params.get_cmake_template()
+        cls.expectCmakePath    = os.path.join(cmp_dir, "compare.txt")
+        cls.expectContent      = io.get_lines(cls.expectCmakePath)
+        cls.msg ='\n\n===== Compared {0} and {1}'
 
     def test_prepare(self):
         actual = cf.prepare(self.srcCMakePath, "kncore", ["kncore", "kngeo"])
@@ -24,12 +25,13 @@ class TestCmakeFile(unittest.TestCase):
 
 
 class Testfile(unittest.TestCase):
-    def setUp(self):
-        self.srcTestPath        = Params.get_test_template()
-        self.expectedTestPath   = os.path.join(cmp_dir, "testcompare.cpp")
-        self.expectedContent    = io.get_lines(self.expectedTestPath)
-        self.testCaseName = "NewTestCase"
-        self.msg ='\n\n===== Use name "{2}", Compared {0} and {1}'
+    @classmethod
+    def setUpClass(cls):
+        cls.srcTestPath        = Params.get_test_template()
+        cls.expectedTestPath   = os.path.join(cmp_dir, "testcompare.cpp")
+        cls.expectedContent    = io.get_lines(cls.expectedTestPath)
+        cls.testCaseName = "NewTestCase"
+        cls.msg ='\n\n===== Use name "{2}", Compared {0} and {1}'
 
     def test_prepare(self):
         actual = tf.TestFile.prepare(self.srcTestPath, self.testCaseName)
@@ -40,18 +42,44 @@ class Testfile(unittest.TestCase):
 
 
 class TestAddSubdirectory(unittest.TestCase):
-    def setUp(self):
+    @classmethod
+    def setUpClass(cls):
         # self.srcCMakePath       = os.path.join(cmp_dir, Params.filenameCmake)
-        self.expectCmakePath    = os.path.join(cmp_dir, "addsubcompare.txt")
-        self.expectContent      = io.get_lines(self.expectCmakePath)
-        self.testDirName        = "test"
-        self.msg ='\n\n===== Compared {0} and {1}'
+        cls.expectCmakePath    = os.path.join(cmp_dir, "addsubcompare.txt")
+        cls.expectContent      = io.get_lines(cls.expectCmakePath)
+        cls.testDirName        = "test"
+        cls.msg ='\n\n===== Compared {0} and {1}'
 
     def test_prepare(self):
         actual = cf.prepareParent(cmp_dir, self.testDirName)
         self.assertListEqual(actual, self.expectContent,
                              msg=self.msg.format("{generated}",
                                                  self.expectCmakePath))
+
+
+class TestIntegration(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        print("setUpClass")
+
+    @classmethod
+    def tearDownClass(cls):
+        print("tearDownClass")
+
+    def setUp(self):
+        print("setUp")
+
+    def test_one(self):
+        print("test one")
+
+    def test_two(self):
+        print("test two")
+
+    def test_three(self):
+        print("test three")
+
+    def tearDown(self):
+        print("tearDown")
 
 
 if __name__ == '__main__':
