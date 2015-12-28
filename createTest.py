@@ -62,7 +62,8 @@ def copy_files(dst):
 
 def attach_to_cmake(dst, tcn):
     """Add line with 'add_subdirectory(TESTCASENAME)' to CmakeLists.txt in
-    directory where this test folder was created."""
+    directory where this test folder was created.
+    :param: dst - path to dir, where will be created test folder."""
     io.write_to_file(dst+"CMakeLists.txt", "add_subdirectory("+tcn+")")
 
 
