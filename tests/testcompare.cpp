@@ -37,6 +37,3 @@ TEST_F(NewTestCase, RigthCase) {
 TEST_F(NewTestCase, WrongCase) {
   FAIL() << "Write test for 'wrong data' case";
 }
-
-
-
