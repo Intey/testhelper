@@ -1,5 +1,6 @@
+import os
 import ioworks as io
-
+from configurator import Params
 
 class CmakeFile:
     @staticmethod
@@ -25,3 +26,8 @@ class CmakeFile:
     def append_modules(lines, i, modules_str):
         new_line = lines[i + 1].replace('testhelpers', modules_str)
         lines.insert(i + 1, new_line)
+
+    @staticmethod
+    def prepareParent(path, testDirName):
+        return [testDirName.join(["add_subdirectory(",")\n"])]
+

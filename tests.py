@@ -1,15 +1,18 @@
 import unittest
-import ioworks as io
-from cmakefile import CmakeFile as cf
-import testfile as tf
-from configurator import Params
+import os
 
-cmp_dir = "tests/"
+import ioworks as io
+import testfile as tf
+from cmakefile import CmakeFile as cf
+from configurator import Params
+from utils import this_script_dir
+
+cmp_dir = "/".join([this_script_dir(),"tests"]).replace('//', '/')
 
 class TestCmakeFile(unittest.TestCase):
     def setUp(self):
         self.srcCMakePath       = Params.get_cmake_template()
-        self.expectCmakePath    = cmp_dir + "compare.txt"
+        self.expectCmakePath    = os.path.join(cmp_dir, "compare.txt")
         self.expectContent      = io.get_lines(self.expectCmakePath)
         self.msg ='\n\n===== Compared {0} and {1}'
 
@@ -23,7 +26,7 @@ class TestCmakeFile(unittest.TestCase):
 class Testfile(unittest.TestCase):
     def setUp(self):
         self.srcTestPath        = Params.get_test_template()
-        self.expectedTestPath   = cmp_dir + "testcompare.cpp"
+        self.expectedTestPath   = os.path.join(cmp_dir, "testcompare.cpp")
         self.expectedContent    = io.get_lines(self.expectedTestPath)
         self.testCaseName = "NewTestCase"
         self.msg ='\n\n===== Use name "{2}", Compared {0} and {1}'
@@ -38,16 +41,17 @@ class Testfile(unittest.TestCase):
 
 class TestAddSubdirectory(unittest.TestCase):
     def setUp(self):
-        self.srcCmakePath       = Params.get_parent_cmake_template()
-        self.expectedCmakePath  = cmp_dir + "addsubcompare.txt"
-        self.expectContent      = io.get_lines(self.expectedCmakePath)
-        self.testDirname        = ""
+        # self.srcCMakePath       = os.path.join(cmp_dir, Params.filenameCmake)
+        self.expectCmakePath    = os.path.join(cmp_dir, "addsubcompare.txt")
+        self.expectContent      = io.get_lines(self.expectCmakePath)
+        self.testDirName        = "test"
         self.msg ='\n\n===== Compared {0} and {1}'
+
     def test_prepare(self):
-        actual = cf.prepareParent(self.srcCMakePath, self.testDirname)
+        actual = cf.prepareParent(cmp_dir, self.testDirName)
         self.assertListEqual(actual, self.expectContent,
-                             msg=self.msg.format(self.srcCMakePath,
-                                            self.expectCmakePath))
+                             msg=self.msg.format("{generated}",
+                                                 self.expectCmakePath))
 
 
 if __name__ == '__main__':
