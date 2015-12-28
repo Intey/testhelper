@@ -1,8 +1,7 @@
 import unittest
-
 import ioworks as io
 import cmakefile as cf
-from testfile import TestFile as tf
+import testfile as tf
 
 
 class TestCmakeFile(unittest.TestCase):
@@ -24,7 +23,7 @@ class Testfile(unittest.TestCase):
         self.testCaseName = "NewTestCase"
 
     def test_prepare(self):
-        self.assertListEqual(tf.prepare(self.srcTestPath, self.testCaseName), self.expectedContent)
+        self.assertListEqual(tf.TestFile.prepare(self.srcTestPath, self.testCaseName), self.expectedContent)
 
 
 if __name__ == '__main__':
