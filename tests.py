@@ -23,7 +23,9 @@ class Testfile(unittest.TestCase):
         self.testCaseName = "NewTestCase"
 
     def test_prepare(self):
-        self.assertListEqual(tf.TestFile.prepare(self.srcTestPath, self.testCaseName), self.expectedContent)
+        self.assertListEqual(tf.TestFile.prepare(self.srcTestPath,
+                                                 self.testCaseName),
+                             self.expectedContent)
 
 
 if __name__ == '__main__':
