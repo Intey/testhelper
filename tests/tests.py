@@ -13,8 +13,6 @@ class TestCmakeFile(unittest.TestCase):
 
     def test_prepare(self):
         actual = cf.prepare(self.srcCMakePath, "kncore", ["kncore", "kngeo"])
-        # pprint.pprint(actual)
-        # pprint.pprint(self.expectContent)
         self.assertListEqual(actual, self.expectContent)
 
 
@@ -30,4 +28,4 @@ class Testfile(unittest.TestCase):
 
 
 if __name__ == '__main__':
-    unittest.main() 
+    unittest.main()
