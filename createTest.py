@@ -3,7 +3,7 @@
 # createTest.py TESTCASENAME [(-g GROUP)] [(--config FILE)] [(--use MODULE...)]
 
 """
-createTest.py: 
+createTest.py:
 	Create test in ./tests
 
 Usage:
@@ -19,6 +19,7 @@ Options:
     -h, --help              Show this help text
     -v, --version           Stow version
 """
+
 # File work
 from os import getcwd, makedirs
 from string import Template  # string interpolation
@@ -38,7 +39,10 @@ def mk_test_folder(group, test_case_name):
     :return: Path to new folder, where should be placed new test.
     """
     # generate test in current dir + tests (./tests/<testcasename>)
-    path = "/".join([Params.testDir, group, test_case_name + Params.testDirPostfix]).strip('/').replace('//', '/')
+    path = "/".join([Params.testDir,
+                    group,
+                    test_case_name + Params.testDirPostfix]
+                    ).strip('/').replace('//', '/')
     makedirs(path, exist_ok=True)
     return path
 
@@ -56,16 +60,19 @@ def copy_files(dst):
     return dst
 
 
+def attach_to_cmake(dst, tcn):
+    """Add line with 'add_subdirectory(TESTCASENAME)' to CmakeLists.txt in
+    directory where this test folder was created."""
+    io.write_to_file(dst+"CMakeLists.txt", "add_subdirectory("+tcn+")")
+
+
 if __name__ == '__main__':
-    # test string
     # arguments = docopt(__doc__, argv="knCoreTest -g kncore --config conf --use kncore kngeo kngui ", version='0.1')
 
     arguments = docopt(__doc__, version='0.1')
-    # read_config()
     testCaseName = arguments["TESTCASENAME"]
     modules = arguments["MODULE"]
     group = arguments["GROUP"]
-    # conf_file = arguments["FILE"]
     pwd = getcwd()
 
     dst = copy_files(mk_test_folder(group, testCaseName))
@@ -78,5 +85,3 @@ if __name__ == '__main__':
     message = Template("Test case $tcn created in $path ").substitute(tcn=testCaseName, path=dst)
 
     print(message)
-
-    # mainfile.prepare()
