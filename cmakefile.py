@@ -28,6 +28,6 @@ class CmakeFile:
         lines.insert(i + 1, new_line)
 
     @staticmethod
-    def prepareParent(path, testDirName):
+    def prepareParent(testDirName):
         return [testDirName.join(["add_subdirectory(",")\n"])]
 
