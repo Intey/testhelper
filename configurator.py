@@ -7,7 +7,7 @@ class Params:
     filenameCmake = "CMakeLists.txt"
     filenameMain = "main.cpp"
     filenameTest = "test.cpp"
-    testDir = "test"
+    testDir = "tests"
     testCaseName = "TestCaseName"
     testDirPostfix = "_test"
 
