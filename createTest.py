@@ -50,8 +50,9 @@ def attach_to_cmake(dst, tcn):
     """Add line with 'add_subdirectory(testcasename)' to CmakeLists.txt in
     directory where this test folder was created.
     :param: dst - path to dir, where will be created test folder."""
-    io.append_to_file(os.path.join(dst, "CMakeLists.txt"),
-                      CmakeFile.prepareParent(tcn))
+    parent_cmake = os.path.join(dst, "CMakeLists.txt")
+    print(parent_cmake)
+    io.append_to_file(parent_cmake, CmakeFile.prepareParent(tcn))
 
 
 def create_test(dst, tcn, mods, grp):
@@ -76,7 +77,7 @@ def create_test(dst, tcn, mods, grp):
     test_content = TestFile.prepare(Params.get_test_template(), tcn)
     io.write_to_file(os.path.join(test_folder, test_filename), test_content)
 
-    attach_to_cmake(dst, tcn)
+    attach_to_cmake(os.path.join(dst,grp), tcn)
 
 
 if __name__ == '__main__':
