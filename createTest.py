@@ -33,15 +33,8 @@ from testfile import TestFile
 from configurator import Params
 
 
-def mk_test_folder(group, test_case_name):
-    """ Creates path for new test
-    :param: group - directory in tests dir where be placed dir with testcasename.
-            testcasename - directory in group dir.
-    :return: Path to new folder, where should be placed new test.
-    """
-    # generate test in current dir + tests (./tests/<testcasename_test>)
-    dirname = test_case_name + Params.testDirPostfix
-    path = os.path.join(Params.testDir, group, dirname)
+def mk_test_folder(dst, group, test_case_name):
+    path = os.path.join(dst, group, test_case_name)
     os.makedirs(path, exist_ok=True)
     return path
 
@@ -57,21 +50,33 @@ def attach_to_cmake(dst, tcn):
     """Add line with 'add_subdirectory(testcasename)' to CmakeLists.txt in
     directory where this test folder was created.
     :param: dst - path to dir, where will be created test folder."""
-    io.write_to_file(dst+"CMakeLists.txt", "add_subdirectory("+tcn+")")
+    io.append_to_file(os.path.join(dst, "CMakeLists.txt"),
+                      CmakeFile.prepareParent(tcn))
 
 
 def create_test(dst, tcn, mods, grp):
-    dst           = os.path.join(os.getcwd(), dst).strip('\\').replace('\\', '/')
-    test_filename = tcn.lower() + Params.testDirPostfix + ".cpp"
-    copy_files(mk_test_folder(grp, tcn))
+    """ Main create function. Prepare all files and put them in dst.
+    :param: dst - destination folder. Should be abspath directory
+    :param: tcn - testcase name.
+    :param: mods - dependencies that whas added in cmake target_link_library
+    :param: grp - group of tests, just name of subfolder in dst
+    """
+
+    tcn = tcn.lower()
+    test_folder_name = tcn + Params.testDirPostfix
+    test_filename = test_folder_name + ".cpp"
+    test_folder =  mk_test_folder(dst, grp, test_folder_name)
+    copy_files(test_folder)
 
     # TODO: to one func: CmakeFile.create
-    cmakeout = CmakeFile.prepare(Params.get_cmake_template(), grp, mods)
-    io.write_to_file(os.path.join(dst, Params.filenameCmake), cmakeout)
+    cmake_content = CmakeFile.prepare(Params.get_cmake_template(), grp, mods)
+    io.write_to_file(os.path.join(test_folder, Params.filenameCmake), cmake_content)
 
     # TODO: to one func: TestFile.create
-    testout = TestFile.prepare(Params.get_test_template(), tcn)
-    io.write_to_file(os.path.join(dst, test_filename), testout)
+    test_content = TestFile.prepare(Params.get_test_template(), tcn)
+    io.write_to_file(os.path.join(test_folder, test_filename), test_content)
+
+    attach_to_cmake(dst, tcn)
 
 
 if __name__ == '__main__':
@@ -80,7 +85,9 @@ if __name__ == '__main__':
     arguments = docopt(__doc__, version='0.1')
     test_case_name = arguments["TESTCASENAME"]
     modules = arguments["MODULE"]
-    group = arguments["GROUP"]
+    group = arguments["GROUP"] or ""
+
+    dst = os.path.join(os.getcwd(), Params.testDir)
 
     create_test(dst, test_case_name, modules, group)
 

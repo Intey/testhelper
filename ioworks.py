@@ -1,3 +1,7 @@
+def touch(path):
+    open(path, 'a').close()
+    return path
+
 def get_lines(path):
     """ read all lines in file
     :param path: filepath to read.
@@ -13,6 +17,12 @@ def write_to_file(path, lines):
     file = open(path, 'w')
     file.writelines(lines)
     file.close()
+
+def append_to_file(path, lines):
+    file = open(path, 'a')
+    file.writelines(lines)
+    file.close()
+
 
 def find_pos_in_file(path, regex):
     """Find line, where regex first time accure.

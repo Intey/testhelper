@@ -113,13 +113,6 @@ class TestIntegration(unittest.TestCase):
         cls.test_filepath         = os.path.join(cls.temp, cls.test_dirname)
 
 
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
-        # shutil.rmtree(self.assets)
-
     def cmp_files(self, fisrt, second):
         self.assertListEqual(io.get_lines(first), io.get_lines(second))
 
