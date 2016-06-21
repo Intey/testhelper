@@ -9,7 +9,7 @@ include_directories(${GTEST_INCLUDE_DIRS})
 
 if (GTEST_FOUND)
   add_executable( ${PROJECT_NAME} WIN32
-    test.cpp 
+    test.cpp
     main.cpp
     )
   target_link_libraries( ${PROJECT_NAME}
