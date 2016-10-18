@@ -32,8 +32,7 @@ from cmakefile import CmakeFile
 from testfile import TestFile
 from configurator import Params
 
-
-def mk_test_folder(dst, group, test_case_name):
+def mkTestFolder(dst, group, test_case_name):
     path = os.path.join(dst, group, test_case_name)
     os.makedirs(path, exist_ok=True)
     return path
@@ -46,13 +45,12 @@ def copy_files(dst):
     copy_tree(Params.templatesDir, dst)
 
 
-def attach_to_cmake(dst, tcn):
-    """Add line with 'add_subdirectory(testcasename)' to CmakeLists.txt in
+def attach_to_cmake(dst, testCaseFolder):
+    """Add line with 'add_subdirectory(%testcasename%_test)' to CmakeLists.txt in
     directory where this test folder was created.
     :param: dst - path to dir, where will be created test folder."""
     parent_cmake = os.path.join(dst, "CMakeLists.txt")
-    print(parent_cmake)
-    io.append_to_file(parent_cmake, CmakeFile.prepareParent(tcn))
+    io.append_to_file(parent_cmake, CmakeFile.prepareParent(testCaseFolder))
 
 
 def create_test(dst, tcn, mods, grp):
@@ -64,20 +62,21 @@ def create_test(dst, tcn, mods, grp):
     """
 
     tcn = tcn.lower()
-    test_folder_name = tcn + Params.testDirPostfix
-    test_filename = test_folder_name + ".cpp"
-    test_folder =  mk_test_folder(dst, grp, test_folder_name)
-    copy_files(test_folder)
+    testFolderName = tcn + Params.testDirPostfix
+    testFilename = testFolderName + ".cpp"
+    testFolder =  mkTestFolder(dst, grp, testFolderName)
+
+    copy_files(testFolder)
 
     # TODO: to one func: CmakeFile.create
     cmake_content = CmakeFile.prepare(Params.get_cmake_template(), grp, mods)
-    io.write_to_file(os.path.join(test_folder, Params.filenameCmake), cmake_content)
+    io.write_to_file(os.path.join(testFolder, Params.filenameCmake), cmake_content)
 
     # TODO: to one func: TestFile.create
     test_content = TestFile.prepare(Params.get_test_template(), tcn)
-    io.write_to_file(os.path.join(test_folder, test_filename), test_content)
+    io.write_to_file(os.path.join(testFolder, testFilename), test_content)
 
-    attach_to_cmake(os.path.join(dst,grp), tcn)
+    attach_to_cmake(os.path.join(dst,grp), testFolderName)
 
 
 if __name__ == '__main__':
