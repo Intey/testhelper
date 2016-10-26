@@ -1,26 +1,18 @@
 string(REGEX MATCH [-a-zA-Z0-9]+_test$ NAME ${CMAKE_CURRENT_SOURCE_DIR})
-message(STATUS ${NAME})
 project (${NAME})
 
-#gtest
-enable_testing()
-find_package(GTest)
-include_directories(${GTEST_INCLUDE_DIRS})
+add_executable( ${NAME} WIN32
+	${NAME}.cpp
+	main.cpp
+)
+target_link_libraries( ${NAME}
+	gtest
+	# your library
+)
 
-if (GTEST_FOUND)
-  add_executable( ${PROJECT_NAME} WIN32
-    test.cpp
-    main.cpp
-    )
-  target_link_libraries( ${PROJECT_NAME}
-        testhelpers
-        ${GTEST_BOTH_LIBRARIES}
-    )
-  set_target_properties( ${PROJECT_NAME} PROPERTIES
+set_target_properties( ${NAME} PROPERTIES
    AUTOMOC ON
    FOLDER "test"
-  )
+)
 
-  add_test(AllTests ${PROJECT_NAME})
-
-endif()
+add_test(AllTests ${NAME})
