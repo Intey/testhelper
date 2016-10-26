@@ -42,6 +42,7 @@ def copy_files(dst):
     """ Move all template files to destination folder """
     from distutils.dir_util import copy_tree
 
+
     copy_tree(Params.templatesDir, dst)
 
 
@@ -75,6 +76,7 @@ def create_test(dst, tcn, mods, grp):
     # TODO: to one func: TestFile.create
     test_content = TestFile.prepare(Params.get_test_template(), tcn)
     io.write_to_file(os.path.join(testFolder, testFilename), test_content)
+    os.remove(os.path.join(testFolder, Params.filenameTest))
 
     attach_to_cmake(os.path.join(dst,grp), testFolderName)
 
