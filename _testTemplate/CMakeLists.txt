@@ -1,7 +1,7 @@
 string(REGEX MATCH [-a-zA-Z0-9]+_test$ NAME ${CMAKE_CURRENT_SOURCE_DIR})
 project (${NAME})
 
-add_executable( ${NAME} WIN32
+add_executable( ${NAME}
 	${NAME}.cpp
 	main.cpp
 )
