@@ -1,5 +1,5 @@
 pipeline:
-  test:
-    image: 192.168.71.64:5000/python3:builder
+  run_tests:
+    image: 192.168.71.64:5000/python3:nose
     commands:
       - nosetest3
